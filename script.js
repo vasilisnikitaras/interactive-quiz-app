@@ -27,8 +27,8 @@ const scoreText = document.getElementById("score-text");
 const restartBtn = document.getElementById("restart-btn");
 
 function loadQuestion() {
-    feedbackText.textContent = ""; // Καθαρισμός μηνύματος
-    nextBtn.style.display = "none"; // Κρύβουμε το κουμπί μέχρι να απαντήσει ο χρήστης
+    feedbackText.textContent = "";
+    nextBtn.style.display = "none";
 
     const currentQuestion = quizQuestions[currentQuestionIndex];
     questionText.textContent = currentQuestion.question;
@@ -52,7 +52,7 @@ function checkAnswer(selectedAnswer) {
         feedbackText.textContent = "❌ Λάθος! Η σωστή απάντηση είναι: " + currentQuestion.correct;
     }
 
-    nextBtn.style.display = "block"; // Εμφάνιση του κουμπιού "Next Question"
+    nextBtn.style.display = "block";
 }
 
 nextBtn.onclick = () => {
