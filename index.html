@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +17,18 @@
         <p>Test your knowledge with fun quizzes!</p>
     </header>
 
+    <section id="player-info">
+        <label for="player-name">Όνομα:</label>
+        <input type="text" id="player-name" placeholder="Γράψε το όνομά σου">
+    </section>
+
+    <section id="category-selection">
+        <h2>Επιλογή Κατηγορίας</h2>
+        <button onclick="setCategory('science')">Επιστήμη</button>
+        <button onclick="setCategory('history')">Ιστορία</button>
+        <button onclick="setCategory('sports')">Αθλητισμός</button>
+    </section>
+
     <section id="quiz">
         <h2>Quiz Questions</h2>
         <div id="question-container">
@@ -24,6 +36,7 @@
             <div id="answers-container"></div>
             <p id="feedback-text"></p>
         </div>
+        <p id="timer"></p>
         <button id="next-btn" style="display: none;">Next Question</button>
     </section>
 
@@ -33,7 +46,6 @@
         <button id="restart-btn">Restart Quiz</button>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>© 2025 Vasilis Nikitaras | All rights reserved.</p>
     </footer>
