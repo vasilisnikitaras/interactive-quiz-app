@@ -51,3 +51,15 @@ button:hover {
     font-weight: bold;
     margin-top: 10px;
 }
+
+.correct-answer {
+    background-color: #4CAF50;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.wrong-answer {
+    background-color: #d9534f;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+}
