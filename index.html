@@ -3,38 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Powered Resume Builder</title>
+    <title>Interactive Quiz App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
- <button onclick="window.location.href='https://vasilisnikitaras.github.io/Vasilis-Projects-2025A/'">
-    Back to Home
-</button>
+    <button onclick="window.location.href='https://vasilisnikitaras.github.io/Vasilis-Projects-2025A/'">
+        Back to Home
+    </button>
 
-    
     <header>
-        <h1>AI-Powered Resume Builder</h1>
-        <p>Create a professional resume with AI assistance!</p>
+        <h1>Interactive Quiz App</h1>
+        <p>Test your knowledge with fun quizzes!</p>
     </header>
 
-    <section id="resume-form">
-        <h2>Enter Your Details</h2>
-        <input type="text" id="name" placeholder="Your Name">
-        <input type="email" id="email" placeholder="Your Email">
-        <textarea id="experience" placeholder="Your Work Experience"></textarea>
-        <button onclick="generateResume()">Generate Resume</button>
+    <section id="quiz">
+        <h2>Quiz Questions</h2>
+        <div id="question-container">
+            <p id="question-text"></p>
+            <div id="answers-container"></div>
+        </div>
+        <button id="next-btn">Next Question</button>
     </section>
 
-    <section id="resume-output">
-        <h2>Your AI-Generated Resume</h2>
-        <div id="resume-preview"></div>
+    <section id="results">
+        <h2>Your Score</h2>
+        <p id="score-text"></p>
     </section>
-
-      <!-- Scroll-to-Top Button -->
-    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="scroll-top-btn">
-        ⬆ Back to Top
-    </button>
 
     <!-- Footer -->
     <footer>
