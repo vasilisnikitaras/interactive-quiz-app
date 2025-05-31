@@ -45,23 +45,14 @@ button:hover {
     width: 200px;
 }
 
-#timer {
-    font-size: 18px;
-    color: #d9534f;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
 .correct-answer {
     background-color: #4CAF50;
     color: white;
-    transition: background-color 0.3s ease-in-out;
 }
 
 .wrong-answer {
     background-color: #d9534f;
     color: white;
-    transition: background-color 0.3s ease-in-out;
 }
 
 .time-up {
@@ -76,4 +67,11 @@ button:hover {
     50% { transform: translateX(5px); }
     75% { transform: translateX(-5px); }
     100% { transform: translateX(0); }
+}
+
+#timer {
+    font-size: 18px;
+    color: #d9534f;
+    font-weight: bold;
+    margin-top: 10px;
 }
