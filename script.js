@@ -1,11 +1,20 @@
-const quizQuestions = [
-    { question: "Ποιο είναι το μεγαλύτερο πλανητικό σώμα στο ηλιακό μας σύστημα;", answers: ["Γη", "Δίας", "Άρης", "Κρόνος"], correct: "Δίας" },
-    { question: "Ποιο είναι το χημικό σύμβολο του Χρυσού;", answers: ["Hg", "Ag", "Au", "Pb"], correct: "Au" },
-    { question: "Ποιος έγραψε την Ιλιάδα και την Οδύσσεια;", answers: ["Σοφοκλής", "Όμηρος", "Αριστοτέλης", "Πλάτων"], correct: "Όμηρος" },
-    { question: "Πόσα δευτερόλεπτα έχει ένα λεπτό;", answers: ["30", "60", "90", "120"], correct: "60" },
-    { question: "Ποιο είναι το εθνικό φαγητό της Ιταλίας;", answers: ["Σούσι", "Τακός", "Πίτσα", "Κρέπες"], correct: "Πίτσα" }
-];
+const categories = {
+    science: [
+        { question: "Ποιο είναι το χημικό σύμβολο του Χρυσού;", answers: ["Hg", "Ag", "Au", "Pb"], correct: "Au" },
+        { question: "Ποιος πλανήτης είναι γνωστός ως Κόκκινος Πλανήτης;", answers: ["Άρης", "Δίας", "Κρόνος", "Αφροδίτη"], correct: "Άρης" }
+    ],
+    history: [
+        { question: "Ποιος έγραψε την Ιλιάδα και την Οδύσσεια;", answers: ["Σοφοκλής", "Όμηρος", "Αριστοτέλης", "Πλάτων"], correct: "Όμηρος" },
+        { question: "Ποια χρονιά έγινε η Γαλλική Επανάσταση;", answers: ["1776", "1789", "1804", "1815"], correct: "1789" }
+    ],
+    sports: [
+        { question: "Πόσα λεπτά διαρκεί ένας ποδοσφαιρικός αγώνας;", answers: ["60", "90", "120", "45"], correct: "90" },
+        { question: "Ποιος είναι ο πιο διάσημος παίκτης μπάσκετ;", answers: ["ΛεΜπρόν Τζέιμς", "Μάικλ Τζόρνταν", "Κόμπι Μπράιαντ", "Στεφ Κάρι"], correct: "Μάικλ Τζόρνταν" }
+    ]
+};
 
+let selectedCategory = "science";
+let quizQuestions = categories[selectedCategory];
 let currentQuestionIndex = 0;
 let score = 0;
 let timeLeft = 10;
@@ -17,9 +26,13 @@ const feedbackText = document.getElementById("feedback-text");
 const nextBtn = document.getElementById("next-btn");
 const scoreText = document.getElementById("score-text");
 const restartBtn = document.getElementById("restart-btn");
-const timerDisplay = document.createElement("p");
-timerDisplay.id = "timer";
-document.getElementById("quiz").appendChild(timerDisplay);
+const timerDisplay = document.getElementById("timer");
+
+function setCategory(category) {
+    selectedCategory = category;
+    quizQuestions = categories[selectedCategory];
+    loadQuestion();
+}
 
 function loadQuestion() {
     feedbackText.textContent = "";
@@ -33,109 +46,29 @@ function loadQuestion() {
     currentQuestion.answers.forEach(answer => {
         const button = document.createElement("button");
         button.textContent = answer;
-        button.onclick = () => checkAnswer(answer);
+        button.onclick = () => checkAnswer(answer, button);
         answersContainer.appendChild(button);
     });
 
     startTimer();
 }
 
-function checkAnswer(selectedAnswer) {
+function checkAnswer(selectedAnswer, button) {
     clearInterval(timerInterval);
     const currentQuestion = quizQuestions[currentQuestionIndex];
 
     if (selectedAnswer === currentQuestion.correct) {
         score++;
         feedbackText.textContent = "✅ Σωστό!";
+        button.classList.add("correct-answer");
     } else {
         feedbackText.textContent = "❌ Λάθος! Η σωστή απάντηση είναι: " + currentQuestion.correct;
+        button.classList.add("wrong-answer");
     }
 
-    nextBtn.style.display = "block";
+    setTimeout(() => nextBtn.click(), 2000);
 }
 
-function startTimer() {
-    timeLeft = 10;
-    timerDisplay.textContent = `Χρόνος: ${timeLeft}s`;
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = `Χρόνος: ${timeLeft}s`;
+restartBtn.onclick = () => location.reload();
 
-        if (timeLeft === 0) {
-            clearInterval(timerInterval);
-            feedbackText.textContent = "⏳ Χρόνος εξαντλήθηκε! Η σωστή απάντηση είναι: " + quizQuestions[currentQuestionIndex].correct;
-            nextBtn.style.display = "block";
-        }
-    }, 1000);
-}
-
-function resetTimer() {
-    clearInterval(timerInterval);
-    timerDisplay.textContent = "Χρόνος: 10s";
-}
-
-nextBtn.onclick = () => {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < quizQuestions.length) {
-        loadQuestion();
-    } else {
-        showResults();
-    }
-};
-
-function showResults() {
-    document.getElementById("quiz").style.display = "none";
-    scoreText.textContent = `Συνολικό σκορ: ${score} / ${quizQuestions.length}`;
-    document.getElementById("results").style.display = "block";
-}
-
-function restartQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    document.getElementById("quiz").style.display = "block";
-    document.getElementById("results").style.display = "none";
-    loadQuestion();
-}
-
-function checkAnswer(selectedAnswer) {
-    clearInterval(timerInterval);
-    const currentQuestion = quizQuestions[currentQuestionIndex];
-    
-    if (selectedAnswer === currentQuestion.correct) {
-        score++;
-        feedbackText.textContent = "✅ Σωστό!";
-        event.target.classList.add("correct-answer");
-    } else {
-        feedbackText.textContent = "❌ Λάθος! Η σωστή απάντηση είναι: " + currentQuestion.correct;
-        event.target.classList.add("wrong-answer");
-    }
-
-    nextBtn.style.display = "block";
-}
-
-function startTimer() {
-    timeLeft = 10;
-    timerDisplay.textContent = `Χρόνος: ${timeLeft}s`;
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = `Χρόνος: ${timeLeft}s`;
-
-        if (timeLeft === 0) {
-            clearInterval(timerInterval);
-            feedbackText.textContent = "⏳ Χρόνος εξαντλήθηκε! Η σωστή απάντηση είναι: " + quizQuestions[currentQuestionIndex].correct;
-            questionText.classList.add("time-up"); // Προσθήκη εφέ
-            nextBtn.style.display = "block";
-        }
-    }, 1000);
-}
-
-
-
-restartBtn.onclick = restartQuiz;
-
-// Φόρτωση της πρώτης ερώτησης
 loadQuestion();
-
-
-
-
