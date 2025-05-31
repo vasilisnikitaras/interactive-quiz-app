@@ -27,10 +27,12 @@ const nextBtn = document.getElementById("next-btn");
 const scoreText = document.getElementById("score-text");
 const restartBtn = document.getElementById("restart-btn");
 const timerDisplay = document.getElementById("timer");
+const playerNameInput = document.getElementById("player-name");
 
 function setCategory(category) {
     selectedCategory = category;
     quizQuestions = categories[selectedCategory];
+    currentQuestionIndex = 0;
     loadQuestion();
 }
 
@@ -41,6 +43,7 @@ function loadQuestion() {
 
     const currentQuestion = quizQuestions[currentQuestionIndex];
     questionText.textContent = currentQuestion.question;
+    questionText.classList.remove("time-up");
     answersContainer.innerHTML = "";
 
     currentQuestion.answers.forEach(answer => {
@@ -67,6 +70,64 @@ function checkAnswer(selectedAnswer, button) {
     }
 
     setTimeout(() => nextBtn.click(), 2000);
+}
+
+function startTimer() {
+    timeLeft = 10;
+    timerDisplay.textContent = `Χρόνος: ${timeLeft}s`;
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Χρόνος: ${timeLeft}s`;
+
+        if (timeLeft === 0) {
+            clearInterval(timerInterval);
+            feedbackText.textContent = "⏳ Χρόνος εξαντλήθηκε! Η σωστή απάντηση είναι: " + quizQuestions[currentQuestionIndex].correct;
+            questionText.classList.add("time-up");
+            nextBtn.style.display = "block";
+        }
+    }, 1000);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerDisplay.textContent = "Χρόνος: 10s";
+}
+
+nextBtn.onclick = () => {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizQuestions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+};
+
+function updateLeaderboard() {
+    let playerName = playerNameInput.value.trim();
+    if (playerName === "") {
+        playerName = "Άγνωστος Παίκτης";
+    }
+
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    leaderboard.push({ name: playerName, score: score });
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+    displayLeaderboard();
+}
+
+function displayLeaderboard() {
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    scoreText.innerHTML = "<h3>Leaderboard</h3>";
+    leaderboard.forEach((entry, i) => {
+        scoreText.innerHTML += `<p>${i + 1}. ${entry.name}: ${entry.score} πόντοι</p>`;
+    });
+}
+
+function showResults() {
+    document.getElementById("quiz").style.display = "none";
+    scoreText.textContent = `Συνολικό σκορ: ${score} / ${quizQuestions.length}`;
+    document.getElementById("results").style.display = "block";
+    updateLeaderboard();
 }
 
 restartBtn.onclick = () => location.reload();
