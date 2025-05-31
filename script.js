@@ -97,7 +97,28 @@ function restartQuiz() {
     loadQuestion();
 }
 
+function checkAnswer(selectedAnswer) {
+    clearInterval(timerInterval);
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    
+    if (selectedAnswer === currentQuestion.correct) {
+        score++;
+        feedbackText.textContent = "✅ Σωστό!";
+        event.target.classList.add("correct-answer");
+    } else {
+        feedbackText.textContent = "❌ Λάθος! Η σωστή απάντηση είναι: " + currentQuestion.correct;
+        event.target.classList.add("wrong-answer");
+    }
+
+    nextBtn.style.display = "block";
+}
+
+
 restartBtn.onclick = restartQuiz;
 
 // Φόρτωση της πρώτης ερώτησης
 loadQuestion();
+
+
+
+
