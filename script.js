@@ -21,10 +21,15 @@ let score = 0;
 
 const questionText = document.getElementById("question-text");
 const answersContainer = document.getElementById("answers-container");
+const feedbackText = document.getElementById("feedback-text");
 const nextBtn = document.getElementById("next-btn");
 const scoreText = document.getElementById("score-text");
+const restartBtn = document.getElementById("restart-btn");
 
 function loadQuestion() {
+    feedbackText.textContent = ""; // Καθαρισμός μηνύματος
+    nextBtn.style.display = "none"; // Κρύβουμε το κουμπί μέχρι να απαντήσει ο χρήστης
+
     const currentQuestion = quizQuestions[currentQuestionIndex];
     questionText.textContent = currentQuestion.question;
     answersContainer.innerHTML = "";
@@ -39,52 +44,41 @@ function loadQuestion() {
 
 function checkAnswer(selectedAnswer) {
     const currentQuestion = quizQuestions[currentQuestionIndex];
+
     if (selectedAnswer === currentQuestion.correct) {
         score++;
+        feedbackText.textContent = "✅ Σωστό!";
+    } else {
+        feedbackText.textContent = "❌ Λάθος! Η σωστή απάντηση είναι: " + currentQuestion.correct;
     }
 
+    nextBtn.style.display = "block"; // Εμφάνιση του κουμπιού "Next Question"
+}
+
+nextBtn.onclick = () => {
     currentQuestionIndex++;
     if (currentQuestionIndex < quizQuestions.length) {
         loadQuestion();
     } else {
         showResults();
     }
-}
+};
 
 function showResults() {
     document.getElementById("quiz").style.display = "none";
     scoreText.textContent = `Συνολικό σκορ: ${score} / ${quizQuestions.length}`;
+    document.getElementById("results").style.display = "block";
 }
-
-nextBtn.onclick = () => {
-    if (currentQuestionIndex < quizQuestions.length) {
-        loadQuestion();
-    }
-};
-
-// Φόρτωση της πρώτης ερώτησης
-loadQuestion();
-
-
-
-
-const restartBtn = document.getElementById("restart-btn");
 
 function restartQuiz() {
     currentQuestionIndex = 0;
     score = 0;
     document.getElementById("quiz").style.display = "block";
     document.getElementById("results").style.display = "none";
-    restartBtn.style.display = "none";
     loadQuestion();
 }
 
 restartBtn.onclick = restartQuiz;
 
-function showResults() {
-    document.getElementById("quiz").style.display = "none";
-    scoreText.textContent = `Συνολικό σκορ: ${score} / ${quizQuestions.length}`;
-    document.getElementById("results").style.display = "block";
-    restartBtn.style.display = "block"; // Εμφανίζουμε το κουμπί restart όταν τελειώσει το quiz
-}
-
+// Φόρτωση της πρώτης ερώτησης
+loadQuestion();
