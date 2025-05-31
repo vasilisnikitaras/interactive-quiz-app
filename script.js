@@ -113,6 +113,23 @@ function checkAnswer(selectedAnswer) {
     nextBtn.style.display = "block";
 }
 
+function startTimer() {
+    timeLeft = 10;
+    timerDisplay.textContent = `Χρόνος: ${timeLeft}s`;
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Χρόνος: ${timeLeft}s`;
+
+        if (timeLeft === 0) {
+            clearInterval(timerInterval);
+            feedbackText.textContent = "⏳ Χρόνος εξαντλήθηκε! Η σωστή απάντηση είναι: " + quizQuestions[currentQuestionIndex].correct;
+            questionText.classList.add("time-up"); // Προσθήκη εφέ
+            nextBtn.style.display = "block";
+        }
+    }, 1000);
+}
+
+
 
 restartBtn.onclick = restartQuiz;
 
