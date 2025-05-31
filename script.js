@@ -64,3 +64,27 @@ nextBtn.onclick = () => {
 
 // Φόρτωση της πρώτης ερώτησης
 loadQuestion();
+
+
+
+
+const restartBtn = document.getElementById("restart-btn");
+
+function restartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    document.getElementById("quiz").style.display = "block";
+    document.getElementById("results").style.display = "none";
+    restartBtn.style.display = "none";
+    loadQuestion();
+}
+
+restartBtn.onclick = restartQuiz;
+
+function showResults() {
+    document.getElementById("quiz").style.display = "none";
+    scoreText.textContent = `Συνολικό σκορ: ${score} / ${quizQuestions.length}`;
+    document.getElementById("results").style.display = "block";
+    restartBtn.style.display = "block"; // Εμφανίζουμε το κουμπί restart όταν τελειώσει το quiz
+}
+
